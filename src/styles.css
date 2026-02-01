@@ -2,6 +2,8 @@
 
 @import 'tw-animate-css';
 
+@import 'leaflet/dist/leaflet.css';
+
 @custom-variant dark (&:is(.dark *));
 
 body {
@@ -135,4 +137,68 @@ code {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Map styles */
+.map-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.map-toggle {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.map-toggle:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.map-toggle.dark {
+  background: rgba(30, 30, 30, 0.9);
+  color: white;
+}
+
+.map-toggle.dark:hover {
+  background: rgba(30, 30, 30, 1);
+}
+
+.locate-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+
+  background: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.locate-button[disabled] {
+  opacity: 0.6;
+  cursor: default;
 }

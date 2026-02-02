@@ -1,6 +1,4 @@
 import { URL, fileURLToPath } from 'node:url'
-import path from 'node:path'
-import fs from 'node:fs'
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { paraglideVitePlugin } from '@inlang/paraglide-js'
@@ -9,7 +7,6 @@ import viteReact from '@vitejs/plugin-react'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 
 import tailwindcss from '@tailwindcss/vite'
-import { nitro } from 'nitro/vite'
 import mkcert from 'vite-plugin-mkcert'
 
 const config = defineConfig({

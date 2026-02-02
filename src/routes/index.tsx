@@ -1,18 +1,23 @@
 import { ClientOnly, createFileRoute } from '@tanstack/react-router'
 import Map from '@/components/map/Map'
-import { getMapApiKey } from '@/utils/api.server'
+import { getGeoIpApiKey, getMapApiKey } from '@/utils/api.server'
 
 export const Route = createFileRoute('/')({
   component: App,
-  loader: () => getMapApiKey(),
+  loader: async () => {
+    return {
+      map_api_key: await getMapApiKey(),
+      geoip_api_key: await getGeoIpApiKey(),
+    }
+  },
 })
 
 function App() {
-  const apiKey = Route.useLoaderData()
+  const { map_api_key, geoip_api_key } = Route.useLoaderData()
   return (
     <>
       <ClientOnly>
-        <Map apiKey={apiKey} />
+        <Map mapApiKey={map_api_key} geoipApiKey={geoip_api_key} />
       </ClientOnly>
     </>
   )

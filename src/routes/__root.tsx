@@ -8,6 +8,12 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
+import Navigation from '../components/Navigation'
+import DarkModeToggle from '../components/DarkModeToggle'
+import {
+  DarkModeProvider,
+  useDarkModeContext,
+} from '../contexts/DarkModeContext'
 
 import appCss from '../styles.css?url'
 
@@ -53,12 +59,24 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
+    <DarkModeProvider>
+      <RootContent>{children}</RootContent>
+    </DarkModeProvider>
+  )
+}
+
+function RootContent({ children }: { children: React.ReactNode }) {
+  const { isDark, toggleDarkMode } = useDarkModeContext()
+
+  return (
     <html lang={getLocale()}>
       <head>
         <HeadContent />
       </head>
       <body>
+        <Navigation />
         {children}
+        <DarkModeToggle isDark={isDark} onToggle={toggleDarkMode} />
         <TanStackDevtools
           config={{
             position: 'bottom-right',

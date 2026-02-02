@@ -7,3 +7,11 @@ export const getMapApiKey = createServerFn().handler(() => {
   }
   return apiKey
 })
+
+export const getGeoIpApiKey = createServerFn().handler(() => {
+  const apiKey = process.env.GEOAPIFY_API_KEY
+  if (!apiKey) {
+    throw new Error('GeoIP API key is not defined')
+  }
+  return apiKey
+})

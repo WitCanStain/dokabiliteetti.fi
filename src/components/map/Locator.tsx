@@ -1,13 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
-import { Marker, Popup, useMap } from 'react-leaflet'
+import { Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
+import DraggableMarker from './DraggableMarker'
 
 type LatLngTuple = [number, number]
 
-export default function Locator({ fallback }: { fallback: LatLngTuple }) {
+export default function Locator({
+  fallback,
+  locating,
+  onLocateFinish,
+}: {
+  fallback: LatLngTuple
+  locating: boolean
+  onLocateFinish: () => void
+}) {
   const map = useMap()
   const [position, setPosition] = useState<LatLngTuple | null>(null)
-  const [locating, setLocating] = useState(false)
 
   const accuracyCircleRef = useRef<L.Circle | null>(null)
 
@@ -16,7 +24,7 @@ export default function Locator({ fallback }: { fallback: LatLngTuple }) {
       const coords: LatLngTuple = [e.latlng.lat, e.latlng.lng]
 
       setPosition(coords)
-      setLocating(false)
+      onLocateFinish()
 
       map.flyTo(coords, Math.max(map.getZoom(), 16))
 
@@ -25,12 +33,13 @@ export default function Locator({ fallback }: { fallback: LatLngTuple }) {
         radius: e.accuracy,
         color: 'red',
         fillOpacity: 0.1,
+        weight: 0,
       }).addTo(map)
     }
 
     const onLocationError = (e: L.ErrorEvent) => {
       console.warn('Leaflet location error:', e.message)
-      setLocating(false)
+      onLocateFinish()
 
       accuracyCircleRef.current?.remove()
       accuracyCircleRef.current = L.circle(fallback, {
@@ -48,35 +57,23 @@ export default function Locator({ fallback }: { fallback: LatLngTuple }) {
       map.off('locationerror', onLocationError)
       accuracyCircleRef.current?.remove()
     }
-  }, [map, fallback])
+  }, [map, fallback, onLocateFinish])
 
-  const locateMe = () => {
-    setLocating(true)
-
-    map.locate({
-      setView: false,
-      enableHighAccuracy: false,
-      timeout: 20000,
-      maximumAge: 60000,
-    })
-  }
+  useEffect(() => {
+    if (locating) {
+      map.locate({
+        watch: true,
+        setView: false,
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 60000,
+      })
+    }
+  }, [locating, map])
 
   return (
-    <>
-      {/* Locate button */}
-      <button
-        onClick={locateMe}
-        disabled={locating}
-        className="leaflet-control locate-button"
-        aria-busy={locating}
-      >
-        {locating ? 'Locating…' : 'Use my location'}
-      </button>
-
-      {/* Marker */}
-      <Marker position={position ?? fallback}>
-        <Popup>You are here</Popup>
-      </Marker>
-    </>
+    <DraggableMarker initialPosition={position ?? fallback}>
+      <Popup>You are here</Popup>
+    </DraggableMarker>
   )
 }

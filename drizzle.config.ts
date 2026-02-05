@@ -7,7 +7,8 @@ export default defineConfig({
   out: './drizzle',
   schema: './src/db/schema.ts',
   dialect: 'postgresql',
+  extensionsFilters: ['postgis'],
   dbCredentials: {
-    url: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DB}',
+    url: process.env.DATABASE_URL!,
   },
 })

@@ -12,3 +12,8 @@ count.txt
 .vinxi
 todos.json
 localhost*
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/

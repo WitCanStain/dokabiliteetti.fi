@@ -11,11 +11,12 @@
     "lint-fix": "eslint --fix",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",
-    "db:generate": "drizzle-kit generate --out src/db/migrations",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:pull": "drizzle-kit pull",
-    "db:studio": "drizzle-kit studio"
+    "db:generate": "drizzle-kit generate --config drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config drizzle.config.ts",
+    "db:push": "drizzle-kit push --config drizzle.config.ts",
+    "db:pull": "drizzle-kit pull --config drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config drizzle.config.ts",
+    "import:establishments": "tsx scripts/import-establishments.ts"
   },
   "dependencies": {
     "@orpc/client": "^1.13.0",
@@ -44,6 +45,7 @@
     "@tanstack/router-plugin": "^1.132.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "csv-parse": "^6.1.0",
     "drizzle-kit": "^0.31.8",
     "drizzle-orm": "^0.45.0",
     "leaflet": "^1.9.4",

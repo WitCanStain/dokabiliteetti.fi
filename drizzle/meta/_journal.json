@@ -8,6 +8,20 @@
       "when": 1770062523399,
       "tag": "0000_lonely_saracen",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1770067906100,
+      "tag": "0001_nosy_mystique",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1770068257136,
+      "tag": "0002_fearless_cyclops",
+      "breakpoints": true
     }
   ]
 }

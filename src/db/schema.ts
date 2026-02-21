@@ -2,27 +2,26 @@ import {
   geometry,
   index,
   pgTable,
-  real,
   serial,
   text,
   timestamp,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core'
 
 export const establishments = pgTable(
   'establishments',
   {
     id: serial().primaryKey(),
-    licenseNumber: text('license_number').notNull().unique(),
+    businessId: text('business_id').notNull(),
+    licenseNumber: text('license_number').notNull(),
     name: text().notNull(),
     streetAddress: text('street_address'),
     city: text(),
     postcode: text(),
-    county: text(),
+    municipality: text(),
     state: text(),
     country: text(),
     countryCode: text('country_code'),
-    formatted: text(),
-    confidence: real(),
     location: geometry('location', {
       type: 'point',
       mode: 'xy',
@@ -31,5 +30,8 @@ export const establishments = pgTable(
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow(),
   },
-  (t) => [index('spatial_index').using('gist', t.location)],
+  (t) => [
+    index('spatial_index').using('gist', t.location),
+    uniqueIndex('unique_business').on(t.businessId, t.licenseNumber),
+  ],
 )

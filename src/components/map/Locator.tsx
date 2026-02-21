@@ -2,26 +2,25 @@ import { useEffect, useRef, useState } from 'react'
 import { Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import DraggableMarker from './DraggableMarker'
-
-type LatLngTuple = [number, number]
+import type { GeoLocation } from '@/hooks/useGeoIpLocation'
 
 export default function Locator({
   fallback,
   locating,
   onLocateFinish,
 }: {
-  fallback: LatLngTuple
+  fallback: GeoLocation
   locating: boolean
   onLocateFinish: () => void
 }) {
   const map = useMap()
-  const [position, setPosition] = useState<LatLngTuple | null>(null)
+  const [position, setPosition] = useState<GeoLocation | null>(null)
 
   const accuracyCircleRef = useRef<L.Circle | null>(null)
 
   useEffect(() => {
     const onLocationFound = (e: L.LocationEvent) => {
-      const coords: LatLngTuple = [e.latlng.lat, e.latlng.lng]
+      const coords: GeoLocation = { lat: e.latlng.lat, lng: e.latlng.lng }
 
       setPosition(coords)
       onLocateFinish()

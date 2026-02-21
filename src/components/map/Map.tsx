@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 import { MapContainer } from 'react-leaflet'
 import MapContent from './MapContent'
 import MapControls from './MapControls'
+import type { GeoLocation } from '@/hooks/useGeoIpLocation'
 import { useGeoIpLocation } from '@/hooks/useGeoIpLocation'
 import { useDarkModeContext } from '@/contexts/DarkModeContext'
-
-type LatLngTuple = [number, number]
 
 export default function Map({
   mapApiKey,
@@ -14,8 +13,8 @@ export default function Map({
   mapApiKey: string
   geoipApiKey: string
 }) {
-  const defaultFallback: LatLngTuple = [60.17, 24.94]
-  const [fallback, setFallback] = useState<LatLngTuple>(defaultFallback)
+  const defaultFallback: GeoLocation = { lat: 60.17, lng: 24.94 }
+  const [fallback, setFallback] = useState<GeoLocation>(defaultFallback)
   const { isDark } = useDarkModeContext()
   const [locating, setLocating] = useState(false)
 
@@ -24,7 +23,7 @@ export default function Map({
 
   useEffect(() => {
     if (ipLocation) {
-      setFallback([ipLocation.lat, ipLocation.lon])
+      setFallback({ lat: ipLocation.lat, lng: ipLocation.lng })
     }
   }, [ipLocation])
 

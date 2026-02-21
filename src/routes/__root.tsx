@@ -1,8 +1,8 @@
 import {
+  ClientOnly,
   HeadContent,
   Scripts,
   createRootRouteWithContext,
-  redirect,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
@@ -76,7 +76,9 @@ function RootContent({ children }: { children: React.ReactNode }) {
       <body>
         <Navigation />
         {children}
-        <DarkModeToggle isDark={isDark} onToggle={toggleDarkMode} />
+        <ClientOnly>
+          <DarkModeToggle isDark={isDark} onToggle={toggleDarkMode} />
+        </ClientOnly>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

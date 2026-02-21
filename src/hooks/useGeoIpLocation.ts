@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 export type GeoLocation = {
   lat: number
-  lon: number
+  lng: number
 }
 
 /**
@@ -38,7 +38,7 @@ export function useGeoIpLocation(apiKey: string) {
         ) {
           setLocation({
             lat: data.location.latitude,
-            lon: data.location.longitude,
+            lng: data.location.longitude,
           })
         } else {
           setError('Location data not available in IP geolocation response')

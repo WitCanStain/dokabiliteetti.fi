@@ -16,7 +16,8 @@
     "db:push": "drizzle-kit push --config drizzle.config.ts",
     "db:pull": "drizzle-kit pull --config drizzle.config.ts",
     "db:studio": "drizzle-kit studio --config drizzle.config.ts",
-    "import:establishments": "tsx scripts/import-establishments.ts"
+    "import:establishments": "tsx scripts/import-establishments.ts",
+    "get:establishments": "tsx scripts/get-establishments.ts"
   },
   "dependencies": {
     "@orpc/client": "^1.13.0",

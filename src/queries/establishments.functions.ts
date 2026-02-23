@@ -76,10 +76,12 @@ export function useClosestEstablishments(
       location?.lng,
       limit,
     ],
-    queryFn: () => {
+    queryFn: async () => {
       if (!location) throw new Error('Location is required')
-      console.log('here')
-      return getClosestEstablishments({ data: { location, limit } })
+      const result = await getClosestEstablishments({
+        data: { location, limit },
+      })
+      return result
     },
     enabled: location !== null, // Only run query if location is provided
   })

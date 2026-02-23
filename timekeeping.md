@@ -5,3 +5,4 @@
 | 02.02.2026 |                            Setting up geocoding script, database setup                            |           6 |
 | 05.02.2026 |                         Continued database debugging and learning Drizzle                         |           3 |
 | 20.02.2026 | Fixed establishment import script, started on server functions for getting closest establishments |           5 |
+| 23.02.2026 |                Functionality to update closest establishments when marker is moved                |           3 |

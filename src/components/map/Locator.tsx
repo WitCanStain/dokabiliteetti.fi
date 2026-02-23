@@ -1,28 +1,30 @@
 import { useEffect, useRef, useState } from 'react'
 import { Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
-import DraggableMarker from './DraggableMarker'
+import PersonMarker from './PersonMarker'
 import type { GeoLocation } from '@/hooks/useGeoIpLocation'
 
 export default function Locator({
   fallback,
   locating,
+  userMarkerPosition,
+  onPositionChange,
   onLocateFinish,
 }: {
   fallback: GeoLocation
   locating: boolean
+  userMarkerPosition: GeoLocation
+  onPositionChange: (position: GeoLocation) => void
   onLocateFinish: () => void
 }) {
   const map = useMap()
-  const [position, setPosition] = useState<GeoLocation | null>(null)
-
   const accuracyCircleRef = useRef<L.Circle | null>(null)
 
   useEffect(() => {
     const onLocationFound = (e: L.LocationEvent) => {
       const coords: GeoLocation = { lat: e.latlng.lat, lng: e.latlng.lng }
 
-      setPosition(coords)
+      onPositionChange(coords)
       onLocateFinish()
 
       map.flyTo(coords, Math.max(map.getZoom(), 16))
@@ -41,7 +43,7 @@ export default function Locator({
       onLocateFinish()
 
       accuracyCircleRef.current?.remove()
-      accuracyCircleRef.current = L.circle(fallback, {
+      accuracyCircleRef.current = L.circle(userMarkerPosition, {
         radius: 50,
         color: 'red',
         fillOpacity: 0.1,
@@ -71,8 +73,11 @@ export default function Locator({
   }, [locating, map])
 
   return (
-    <DraggableMarker initialPosition={position ?? fallback}>
+    <PersonMarker
+      initialPosition={userMarkerPosition}
+      onPositionChange={onPositionChange}
+    >
       <Popup>You are here</Popup>
-    </DraggableMarker>
+    </PersonMarker>
   )
 }
